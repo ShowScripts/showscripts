@@ -41,113 +41,124 @@
     },
 
     /* ================= UI ================= */
-    ui: {
-      init() {
-        if ($("#st-ui").length) return;
+ui: {
+  init() {
+    if ($("#st-ui").length) return;
 
-        const units = game_data.units.filter(
-          u => !["militia","snob","ram","catapult","spy","knight"].includes(u)
-        );
+    const units = game_data.units.filter(
+      u => !["militia","snob","ram","catapult","spy","knight"].includes(u)
+    );
 
-        let html = `
-        <div id="st-ui" style="
-          position:fixed;top:90px;right:30px;width:300px;
-          background:#050505;
-          border:2px solid #d4af37;
-          box-shadow:0 0 20px rgba(212,175,55,0.4);
-          color:#f5d98b;
-          font-family:Arial;
-          font-size:12px;
-          z-index:99999;
-          padding:12px">
+    const nomesPT = {
+      spear: "Lanceiro",
+      sword: "Espadachim",
+      axe: "Bárbaro",
+      light: "Cavalaria Leve",
+      heavy: "Cavalaria Pesada",
+      archer: "Arqueiro",
+      marcher: "Arqueiro a Cavalo"
+    };
 
-          <div style="text-align:center;font-weight:bold;font-size:16px;letter-spacing:2px">
-            SCAVAGETIME
-          </div>
-          <div style="text-align:center;font-size:10px;color:#aaa;margin-bottom:6px">
-            Saque em Massa Inteligente
-          </div>
-          <hr style="border-color:#d4af37">
+    let html = `
+    <div id="st-ui" style="
+      position:fixed;top:90px;right:30px;width:300px;
+      background:#050505;
+      border:2px solid #d4af37;
+      box-shadow:0 0 20px rgba(212,175,55,0.4);
+      color:#f5d98b;
+      font-family:Arial;
+      font-size:12px;
+      z-index:99999;
+      padding:12px">
 
-          <b>Tropas</b><br>`;
+      <div style="text-align:center;font-weight:bold;font-size:16px;letter-spacing:2px">
+        SCAVAGETIME
+      </div>
+      <div style="text-align:center;font-size:10px;color:#aaa;margin-bottom:6px">
+        Saque em Massa Inteligente
+      </div>
+      <hr style="border-color:#d4af37">
 
-        units.forEach(u => {
-          html += `
-            <label style="display:inline-block;width:90px">
-              <input type="checkbox" data-unit="${u}" checked> ${u}
-            </label>
-            <input type="number" data-keep="${u}" value="0"
-              style="width:45px;background:#000;border:1px solid #d4af37;color:#d4af37"><br>`;
-        });
+      <b>Tropas</b><br>`;
 
-        html += `
-          <hr style="border-color:#d4af37">
-          <b>Categorias</b><br>`;
+    units.forEach(u => {
+      html += `
+        <label style="display:inline-block;width:120px">
+          <input type="checkbox" data-unit="${u}" checked> ${nomesPT[u] || u}
+        </label>
+        <input type="number" data-keep="${u}" value="0"
+          style="width:45px;background:#000;border:1px solid #d4af37;color:#d4af37"><br>`;
+    });
 
-        ["Pequena","Média","Grande","Extrema"].forEach((n,i)=>{
-          html += `
-            <label>
-              <input type="checkbox" data-cat="${i}" checked> ${n}
-            </label><br>`;
-        });
+    html += `
+      <hr style="border-color:#d4af37">
+      <b>Categorias</b><br>`;
 
-        html += `
-          <hr style="border-color:#d4af37">
-          <b>Duração desejada (horas)</b><br>
-          Off <input id="st-off" type="number" value="4" style="width:40px">
-          Def <input id="st-def" type="number" value="3" style="width:40px"><br>
+    ["Pequena","Média","Grande","Extrema"].forEach((n,i)=>{
+      html += `
+        <label>
+          <input type="checkbox" data-cat="${i}" checked> ${n}
+        </label><br>`;
+    });
 
-          <hr style="border-color:#d4af37">
-          <label><input type="radio" name="prio" value="0" checked> Balanceado</label><br>
-          <label><input type="radio" name="prio" value="1"> Priorizar maior</label><br>
+    html += `
+      <hr style="border-color:#d4af37">
+      <b>Duração desejada (horas)</b><br>
+      Off <input id="st-off" type="number" value="4" style="width:40px">
+      Def <input id="st-def" type="number" value="3" style="width:40px"><br>
 
-          <hr style="border-color:#d4af37">
-          <button id="st-run" style="
-            width:100%;
-            background:#d4af37;
-            color:#000;
-            border:none;
-            font-weight:bold;
-            padding:6px;
-            cursor:pointer">
-            CALCULAR SAQUES
-          </button>
-        </div>`;
+      <hr style="border-color:#d4af37">
+      <label><input type="radio" name="prio" value="0" checked> Balanceado</label><br>
+      <label><input type="radio" name="prio" value="1"> Priorizar maior</label><br>
 
-        $("body").append(html);
+      <hr style="border-color:#d4af37">
+      <button id="st-run" style="
+        width:100%;
+        background:#d4af37;
+        color:#000;
+        border:none;
+        font-weight:bold;
+        padding:6px;
+        cursor:pointer">
+        CALCULAR SAQUES
+      </button>
+    </div>`;
 
-        $("#st-run").on("click", () => {
-          this.sync();
-          ShowScripts.scavagetime.logic.start();
-        });
-      },
+    $("body").append(html);
 
-      sync() {
-        const S = ShowScripts.scavagetime.state;
-        S.tropasAtivas = {};
-        S.manterCasa = {};
-        S.ordemEnvio = [];
+    $("#st-run").on("click", () => {
+      this.sync();
+      ShowScripts.scavagetime.logic.start();
+    });
+  },
 
-        $("[data-unit]").each(function(){
-          const u = $(this).data("unit");
-          S.tropasAtivas[u] = this.checked;
-          S.ordemEnvio.push(u);
-        });
+  sync() {
+    const S = ShowScripts.scavagetime.state;
+    S.tropasAtivas = {};
+    S.manterCasa = {};
+    S.ordemEnvio = [];
 
-        $("[data-keep]").each(function(){
-          S.manterCasa[$(this).data("keep")] = parseInt(this.value || 0);
-        });
+    $("[data-unit]").each(function(){
+      const u = $(this).data("unit");
+      S.tropasAtivas[u] = this.checked;
+      S.ordemEnvio.push(u);
+    });
 
-        S.categoriasAtivas = [false,false,false,false];
-        $("[data-cat]").each(function(){
-          S.categoriasAtivas[$(this).data("cat")] = this.checked;
-        });
+    $("[data-keep]").each(function(){
+      S.manterCasa[$(this).data("keep")] = parseInt(this.value || 0);
+    });
 
-        S.tempo.off = parseFloat($("#st-off").val());
-        S.tempo.def = parseFloat($("#st-def").val());
-        S.priorizarAlta = $("input[name=prio]:checked").val() === "1";
-      }
-    },
+    S.categoriasAtivas = [false,false,false,false];
+    $("[data-cat]").each(function(){
+      S.categoriasAtivas[$(this).data("cat")] = this.checked;
+    });
+
+    S.tempo.off = parseFloat($("#st-off").val());
+    S.tempo.def = parseFloat($("#st-def").val());
+    S.priorizarAlta = $("input[name=prio]:checked").val() === "1";
+  }
+},
+
 
     /* ================= LOGIC ================= */
     logic: {
