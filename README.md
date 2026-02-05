@@ -1,0 +1,2 @@
+# massScavengeSophie.js
+Coleta Automática
