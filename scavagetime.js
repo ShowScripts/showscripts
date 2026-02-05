@@ -81,11 +81,10 @@ ui: {
   letter-spacing:2px">
   
   <img src="https://raw.githubusercontent.com/ShowScripts/showscripts/main/ShowScriptsLogo.png"
-       style="width:64px;height:64px">
-  COLETA TIME<br>
-  </div>
-      <div style="text-align:center;font-size:12px;color:#aaa;margin-bottom:6px">
-        Coleta em massa inteligente!
+       style="width:80px;height:80px">
+  </div><br><br>
+      <div style="text-align:center;font-size:12px;color:#f5d98b;margin-bottom:6px;">
+        Coleta em massa inteligente
       </div>
       <hr style="border-color:#d4af37"><br>
 
