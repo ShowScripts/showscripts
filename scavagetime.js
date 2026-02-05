@@ -81,13 +81,13 @@ ui: {
   letter-spacing:2px">
   
   <img src="https://raw.githubusercontent.com/ShowScripts/showscripts/main/ShowScriptsLogo.png"
-       style="width:28px;height:28px">
-  SCAVAGE TIME
+       style="width:64px;height:64px">
+  COLETA TIME<br>
   </div>
-      <div style="text-align:center;font-size:10px;color:#aaa;margin-bottom:6px">
-        Saque em Massa Inteligente
+      <div style="text-align:center;font-size:12px;color:#aaa;margin-bottom:6px">
+        Coleta em massa inteligente!
       </div>
-      <hr style="border-color:#d4af37">
+      <hr style="border-color:#d4af37"><br>
 
       <b>Tropas</b><br>`;
 
@@ -113,9 +113,11 @@ ui: {
 
     html += `
       <hr style="border-color:#d4af37">
-      <b>Duração Máxima Desejada (horas)</b><br>
-      Aldeias Ofensivas <input id="st-off" type="number" value="4" style="width:40px">
-      Aldeias Defensivas <input id="st-def" type="number" value="3" style="width:40px"><br>
+      <b>Horas Máxima Desejadas</b><br>
+      Aldeias Ofensivas<br>
+      <input id="st-off" type="number" value="2" style="width:40px"><br><br>
+      Aldeias Defensivas<br>
+      <input id="st-def" type="number" value="2" style="width:40px"><br>
 
       <hr style="border-color:#d4af37">
       <label><input type="radio" name="prio" value="0" checked> Balanceado</label><br>
@@ -130,7 +132,7 @@ ui: {
         font-weight:bold;
         padding:6px;
         cursor:pointer">
-        Iniciar Coletas!
+        Iniciar Coletas
       </button>
     </div>`;
 
