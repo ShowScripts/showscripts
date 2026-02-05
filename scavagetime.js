@@ -27,7 +27,7 @@
       ordemEnvio: [],
       categoriasAtivas: [true, true, true, true],
       priorizarAlta: false,
-      tempo: { off: 4, def: 3 },
+      tempo: { off: 1, def: 1 },
       squads: [],
       squadsPremium: []
     },
@@ -71,9 +71,19 @@ ui: {
       z-index:99999;
       padding:12px">
 
-      <div style="text-align:center;font-weight:bold;font-size:16px;letter-spacing:2px">
-        SCAVAGETIME
-      </div>
+  <div style="
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:bold;
+  font-size:16px;
+  letter-spacing:2px">
+  
+  <img src="https://raw.githubusercontent.com/ShowScripts/showscripts/main/ShowScriptsLogo.png"
+       style="width:28px;height:28px">
+  SCAVAGE TIME
+  </div>
       <div style="text-align:center;font-size:10px;color:#aaa;margin-bottom:6px">
         Saque em Massa Inteligente
       </div>
@@ -94,7 +104,7 @@ ui: {
       <hr style="border-color:#d4af37">
       <b>Categorias</b><br>`;
 
-    ["Pequena","Média","Grande","Extrema"].forEach((n,i)=>{
+    ["Habilitar Pequena Coleta","Habilitar Média Coleta","Habilitar Grande Coleta","Habilitar Extrema Coleta"].forEach((n,i)=>{
       html += `
         <label>
           <input type="checkbox" data-cat="${i}" checked> ${n}
@@ -103,9 +113,9 @@ ui: {
 
     html += `
       <hr style="border-color:#d4af37">
-      <b>Duração desejada (horas)</b><br>
-      Off <input id="st-off" type="number" value="4" style="width:40px">
-      Def <input id="st-def" type="number" value="3" style="width:40px"><br>
+      <b>Duração Máxima Desejada (horas)</b><br>
+      Aldeias Ofensivas <input id="st-off" type="number" value="4" style="width:40px">
+      Aldeias Defensivas <input id="st-def" type="number" value="3" style="width:40px"><br>
 
       <hr style="border-color:#d4af37">
       <label><input type="radio" name="prio" value="0" checked> Balanceado</label><br>
@@ -120,7 +130,7 @@ ui: {
         font-weight:bold;
         padding:6px;
         cursor:pointer">
-        CALCULAR SAQUES
+        Iniciar Coletas!
       </button>
     </div>`;
 
